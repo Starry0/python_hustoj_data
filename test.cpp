@@ -1,18 +1,30 @@
 #include <iostream>
+#include <cstring>
 #include <stdio.h>
-#include <string.h>
 using namespace std;
-int dp[10010];
-int main(){
-	int n,W;
-	scanf("%d %d",&n,&W);
-	for(int i = 0; i < n; i ++){
-		int w,p;
-		scanf("%d %d",&w,&p);
-		for(int j = W; j >= w; j --){
-			dp[j] = max(dp[j],dp[j-w]+p);
-		}
+const int N =1e5+10;
+char str1[N], str2[N], str3[N];
+char * add(char *s, char *ss) {
+	memset(str3, 0, sizeof(str3));
+	int len1 = strlen(s)-1;
+	int len2 = strlen(ss)-1;
+	int len3 = 0, x, y, flag = 0;
+	while(len1 >= 0 || len2 >= 0) {
+		if(len1 >= 0) x = s[len1] - '0';
+		else x = 0;
+		if(len2 >= 0) y = ss[len2] - '0';
+		else y = 0;
+		str3[len3++] = (x+y+flag)%10 + '0';
+		flag = (x+y+flag)/10;
+		len2--;len1--;
 	}
-	printf("%d\n",dp[W]);
+	for(int i = 0; i < len3/2; i ++) {
+		swap(str3[i],str3[len3-i-1]);
+	}
+	return str3;
+}
+int main() {
+	cin >> str1 >> str2;
+	cout << add(str1,str2) << endl;
 	return 0;
 }
